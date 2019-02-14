@@ -15,7 +15,7 @@ class CompaniesController extends Controller
 
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     public function store(Request $request)
@@ -44,7 +44,8 @@ class CompaniesController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        $company=Company::find($company->id);
+        return view('companies.edit',['company'=>$company]);
     }
 
     /**
@@ -56,17 +57,19 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $companyUpdate=Company::where('id',$company->id)->update([
+            'name'=>$request->input('name'),
+        ]);
+        if($companyUpdate){
+            return redirect()->route('companies.show',['company'=>$company->id])->with('success','company update successfuly');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Company $company)
     {
-        //
+        $findCompany=Company::find($company->id);
+        if($findCompany->delete()){
+            return redirect()->route('companies.index')->with('success','Companies success delete');
+        }
     }
 }

@@ -70,7 +70,8 @@
                 </div>
             </div>
         </nav>
-
+        @include('partials.success');
+        @include('partials.errors');
         @yield('content')
     </div>
 
